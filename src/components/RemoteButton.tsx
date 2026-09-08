@@ -1,5 +1,6 @@
 import React from "react";
 import * as Haptics from "expo-haptics";
+import { useColorScheme } from "nativewind";
 import { LucideIcon } from "lucide-react-native";
 import { TouchableOpacity, Text } from "react-native";
 
@@ -20,6 +21,8 @@ export const RemoteButton: React.FC<RemoteButtonProps> = ({
   size = "medium",
   className = "",
 }) => {
+  const { colorScheme } = useColorScheme();
+
   const getVariantStyles = () => {
     switch (variant) {
       case "primary":
@@ -28,7 +31,7 @@ export const RemoteButton: React.FC<RemoteButtonProps> = ({
         return "bg-red-500";
       case "secondary":
       default:
-        return "bg-[#2C2C2E]";
+        return "bg-white dark:bg-[#2C2C2E]";
     }
   };
 
@@ -49,16 +52,23 @@ export const RemoteButton: React.FC<RemoteButtonProps> = ({
     onPress();
   };
 
+  const iconColor =
+    variant === "secondary"
+      ? colorScheme === "dark"
+        ? "white"
+        : "black"
+      : "white";
+
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={handlePress}
-      className={`${getVariantStyles()} ${getSizeStyles()} justify-center items-center shadow-lg ${className}`}
+      className={`${getVariantStyles()} ${getSizeStyles()} justify-center items-center shadow-sm dark:shadow-lg transition-colors duration-500 ${className}`}
     >
-      {Icon && <Icon color="white" size={size === "small" ? 20 : 24} />}
+      {Icon && <Icon color={iconColor} size={size === "small" ? 20 : 24} />}
       {label && (
         <Text
-          className="text-white text-[10px] mt-1 font-semibold text-center leading-tight px-1"
+          className={`${variant === "secondary" ? "text-black dark:text-white" : "text-white"} text-[10px] mt-1 font-semibold text-center leading-tight px-1 transition-colors duration-500`}
           numberOfLines={2}
         >
           {label}

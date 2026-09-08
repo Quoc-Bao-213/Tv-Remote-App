@@ -1,5 +1,6 @@
 import { useRouter } from "expo-router";
 import * as Haptics from "expo-haptics";
+import { useColorScheme } from "nativewind";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppStore } from "../store/useAppStore";
@@ -18,8 +19,10 @@ import {
 } from "react-native";
 import {
   Tv,
+  Sun,
   Menu,
   Home,
+  Moon,
   Power,
   Settings,
   ArrowLeft,
@@ -40,6 +43,8 @@ export default function RemoteScreen() {
     launchApp,
     setPairingRequired,
   } = useSamsungTV();
+
+  const { colorScheme, toggleColorScheme } = useColorScheme();
 
   const [ipInput, setIpInput] = useState(samsungTvIp || "");
 
@@ -85,16 +90,18 @@ export default function RemoteScreen() {
 
   if (selectedTVBrand !== "samsung") {
     return (
-      <SafeAreaView className="flex-1 bg-[#121212] justify-center items-center">
-        <Text className="text-white">Please select a TV first</Text>
+      <SafeAreaView className="flex-1 bg-[#F2F2F7] dark:bg-[#121212] justify-center items-center transition-colors duration-500">
+        <Text className="text-black dark:text-white transition-colors duration-500">
+          Please select a TV first
+        </Text>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-[#121212]">
+    <SafeAreaView className="flex-1 bg-[#F2F2F7] dark:bg-[#121212] transition-colors duration-500">
       {/* Header */}
-      <View className="px-6 py-4 flex-row justify-between items-center border-b border-[#2C2C2E]">
+      <View className="px-6 py-4 flex-row justify-between items-center border-b border-gray-200 dark:border-[#2C2C2E] transition-colors duration-500">
         <TouchableOpacity
           onPress={() => router.push("/tv-selector")}
           className="flex-row items-center"
@@ -105,13 +112,24 @@ export default function RemoteScreen() {
 
         <View className="flex-row items-center">
           <TouchableOpacity
+            onPress={toggleColorScheme}
+            className="bg-white dark:bg-[#2C2C2E] p-2 rounded-full border border-gray-200 dark:border-[#3A3A3C] mr-3 transition-colors duration-500"
+          >
+            {colorScheme === "dark" ? (
+              <Sun color="white" size={16} />
+            ) : (
+              <Moon color="black" size={16} />
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
             onPress={() => {
               const nextLang = i18n.language?.startsWith("en") ? "vi" : "en";
               i18n.changeLanguage(nextLang);
             }}
-            className="bg-[#2C2C2E] px-3 py-1.5 rounded-full border border-[#3A3A3C] mr-3"
+            className="bg-white dark:bg-[#2C2C2E] px-3 py-1.5 rounded-full border border-gray-200 dark:border-[#3A3A3C] mr-3 transition-colors duration-500"
           >
-            <Text className="text-white font-bold text-xs">
+            <Text className="text-black dark:text-white font-bold text-xs transition-colors duration-500">
               {i18n.language?.startsWith("vi") ? "VN" : "EN"}
             </Text>
           </TouchableOpacity>
@@ -140,13 +158,13 @@ export default function RemoteScreen() {
 
       {/* IP Setup - Only show if disconnected */}
       {!isConnected && (
-        <View className="px-6 py-4 bg-[#1C1C1E] border-b border-[#2C2C2E]">
-          <Text className="text-[#A0A0A0] text-xs mb-2">
+        <View className="px-6 py-4 bg-white dark:bg-[#1C1C1E] border-b border-gray-200 dark:border-[#2C2C2E] transition-colors duration-500">
+          <Text className="text-gray-500 dark:text-[#A0A0A0] text-xs mb-2 transition-colors duration-500">
             {t("remote.ipAddress")}
           </Text>
           <View className="flex-row">
             <TextInput
-              className="flex-1 bg-[#2C2C2E] text-white p-3 rounded-xl mr-3 font-mono"
+              className="flex-1 bg-gray-100 dark:bg-[#2C2C2E] text-black dark:text-white p-3 rounded-xl mr-3 font-mono transition-colors duration-500"
               placeholder="192.168.1.x"
               placeholderTextColor="#666"
               value={ipInput}
@@ -232,21 +250,27 @@ export default function RemoteScreen() {
 
         {/* Bottom Controls (Vol / CH) */}
         <View className="flex-row justify-between w-full px-4 mb-8">
-          <View className="bg-[#2C2C2E] rounded-full items-center p-2 shadow-lg">
+          <View className="bg-white dark:bg-[#2C2C2E] rounded-full items-center p-2 shadow-lg transition-colors duration-500">
             <TouchableOpacity
               className="p-4"
               onPress={() => handleKeyPress(TV_KEYS.VOL_UP)}
             >
-              <Text className="text-white text-xl font-bold">+</Text>
+              <Text className="text-black dark:text-white text-xl font-bold transition-colors duration-500">
+                +
+              </Text>
             </TouchableOpacity>
             <View className="py-2">
-              <Text className="text-[#A0A0A0] text-xs font-bold">VOL</Text>
+              <Text className="text-gray-500 dark:text-[#A0A0A0] text-xs font-bold transition-colors duration-500">
+                VOL
+              </Text>
             </View>
             <TouchableOpacity
               className="p-4"
               onPress={() => handleKeyPress(TV_KEYS.VOL_DOWN)}
             >
-              <Text className="text-white text-xl font-bold">-</Text>
+              <Text className="text-black dark:text-white text-xl font-bold transition-colors duration-500">
+                -
+              </Text>
             </TouchableOpacity>
           </View>
 
@@ -261,21 +285,27 @@ export default function RemoteScreen() {
             />
           </View>
 
-          <View className="bg-[#2C2C2E] rounded-full items-center p-2 shadow-lg">
+          <View className="bg-white dark:bg-[#2C2C2E] rounded-full items-center p-2 shadow-lg transition-colors duration-500">
             <TouchableOpacity
               className="p-4"
               onPress={() => handleKeyPress(TV_KEYS.CH_UP)}
             >
-              <Text className="text-white text-xl font-bold">+</Text>
+              <Text className="text-black dark:text-white text-xl font-bold transition-colors duration-500">
+                +
+              </Text>
             </TouchableOpacity>
             <View className="py-2">
-              <Text className="text-[#A0A0A0] text-xs font-bold">CH</Text>
+              <Text className="text-gray-500 dark:text-[#A0A0A0] text-xs font-bold transition-colors duration-500">
+                CH
+              </Text>
             </View>
             <TouchableOpacity
               className="p-4"
               onPress={() => handleKeyPress(TV_KEYS.CH_DOWN)}
             >
-              <Text className="text-white text-xl font-bold">-</Text>
+              <Text className="text-black dark:text-white text-xl font-bold transition-colors duration-500">
+                -
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
