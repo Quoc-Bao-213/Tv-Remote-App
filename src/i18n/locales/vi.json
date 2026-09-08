@@ -23,7 +23,10 @@
     "ok": "OK",
     "ipAddress": "Địa chỉ IP TV",
     "connectBtn": "Kết nối",
-    "disconnectBtn": "Ngắt kết nối"
+    "disconnectBtn": "Ngắt kết nối",
+    "connectionFailed": "Lỗi kết nối",
+    "connectionError": "Không thể kết nối với TV. Vui lòng kiểm tra địa chỉ IP và đảm bảo TV đang bật và kết nối cùng mạng Wi-Fi.",
+    "connectingWait": "Đang kết nối với TV, vui lòng đợi..."
   },
   "pairing": {
     "title": "Yêu cầu kết nối",

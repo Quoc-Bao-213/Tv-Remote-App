@@ -13,9 +13,12 @@ import { useSamsungTV } from "../features/samsung-tv/useSamsungTV";
 import {
   View,
   Text,
+  Modal,
+  Alert,
   TextInput,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import {
   Tv,
@@ -42,6 +45,8 @@ export default function RemoteScreen() {
     sendKey,
     launchApp,
     setPairingRequired,
+    connectionError,
+    setConnectionError,
   } = useSamsungTV();
 
   const { colorScheme, toggleColorScheme } = useColorScheme();
@@ -59,6 +64,21 @@ export default function RemoteScreen() {
     setSamsungTvInfo(ipInput);
     connect(ipInput);
   };
+
+  useEffect(() => {
+    if (connectionError) {
+      // Delay the alert slightly to ensure the connecting Modal has completely
+      // finished fading out. On iOS, presenting an Alert while a Modal is dismissing
+      // causes the Alert to be silently dropped.
+      const timer = setTimeout(() => {
+        Alert.alert(t("remote.connectionFailed"), t("remote.connectionError"), [
+          { text: t("remote.ok"), onPress: () => setConnectionError(false) },
+        ]);
+      }, 400);
+
+      return () => clearTimeout(timer);
+    }
+  }, [connectionError, t]);
 
   const handleDisconnect = () => {
     disconnect();
@@ -318,6 +338,21 @@ export default function RemoteScreen() {
           disconnect();
         }}
       />
+
+      {/* Connecting Overlay */}
+      <Modal visible={isConnecting} transparent animationType="fade">
+        <View className="flex-1 bg-black/60 justify-center px-6">
+          <View className="bg-white dark:bg-[#2C2C2E] w-full rounded-3xl p-8 items-center shadow-2xl border border-gray-200 dark:border-[#3A3A3C] transition-colors duration-500">
+            <ActivityIndicator size="large" color="#007AFF" className="mb-4" />
+            <Text className="text-black dark:text-white text-lg font-bold text-center mb-2 transition-colors duration-500">
+              {t("remote.connecting")}
+            </Text>
+            <Text className="text-gray-500 dark:text-[#A0A0A0] text-center leading-6 transition-colors duration-500">
+              {t("remote.connectingWait")}
+            </Text>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
