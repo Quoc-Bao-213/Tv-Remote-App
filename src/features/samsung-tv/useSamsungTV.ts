@@ -8,6 +8,7 @@ export const useSamsungTV = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [pairingRequired, setPairingRequired] = useState(false);
+  const [connectionError, setConnectionError] = useState(false);
 
   const wsRef = useRef<WebSocket | null>(null);
 
@@ -18,6 +19,7 @@ export const useSamsungTV = () => {
 
       setIsConnecting(true);
       setPairingRequired(false);
+      setConnectionError(false);
 
       const port = useSecure ? "8002" : "8001";
       const protocol = useSecure ? "wss" : "ws";
@@ -55,9 +57,7 @@ export const useSamsungTV = () => {
           connect(ip, false);
         } else {
           setIsConnecting(false);
-          if (!hasPaired) {
-            setPairingRequired(true);
-          }
+          setConnectionError(true);
         }
       };
 
@@ -139,10 +139,12 @@ export const useSamsungTV = () => {
     isConnected,
     isConnecting,
     pairingRequired,
+    connectionError,
     connect,
     disconnect,
     sendKey,
     launchApp,
     setPairingRequired,
+    setConnectionError,
   };
 };

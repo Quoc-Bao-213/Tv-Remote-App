@@ -23,7 +23,10 @@
     "ok": "OK",
     "ipAddress": "TV IP Address",
     "connectBtn": "Connect",
-    "disconnectBtn": "Disconnect"
+    "disconnectBtn": "Disconnect",
+    "connectionFailed": "Connection Failed",
+    "connectionError": "Unable to connect to the TV. Please check the IP address and make sure the TV is turned on and connected to the same Wi-Fi.",
+    "connectingWait": "Connecting to TV, please wait..."
   },
   "pairing": {
     "title": "Pairing Required",
