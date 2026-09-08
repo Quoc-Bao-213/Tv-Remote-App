@@ -1,5 +1,6 @@
 import React from "react";
 import * as Haptics from "expo-haptics";
+import { useColorScheme } from "nativewind";
 import { View, TouchableOpacity, Text } from "react-native";
 import {
   ChevronUp,
@@ -28,11 +29,14 @@ export const DirectionalPad: React.FC<DirectionalPadProps> = ({
     action();
   };
 
+  const { colorScheme } = useColorScheme();
+  const iconColor = colorScheme === "dark" ? "white" : "black";
+
   return (
-    <View className="w-64 h-64 rounded-full bg-[#2C2C2E] items-center justify-center relative shadow-xl overflow-hidden">
+    <View className="w-64 h-64 rounded-full bg-gray-200 dark:bg-[#2C2C2E] items-center justify-center relative shadow-xl overflow-hidden transition-colors duration-500">
       {/* Segment Divider X */}
-      <View className="absolute w-[140%] h-[2px] bg-[#3A3A3C] rotate-45" />
-      <View className="absolute w-[140%] h-[2px] bg-[#3A3A3C] -rotate-45" />
+      <View className="absolute w-[140%] h-[2px] bg-gray-300 dark:bg-[#3A3A3C] rotate-45 transition-colors duration-500" />
+      <View className="absolute w-[140%] h-[2px] bg-gray-300 dark:bg-[#3A3A3C] -rotate-45 transition-colors duration-500" />
 
       {/* Top Button */}
       <TouchableOpacity
@@ -40,7 +44,7 @@ export const DirectionalPad: React.FC<DirectionalPadProps> = ({
         onPress={withHaptic(onUp)}
         className="absolute top-2 w-20 h-16 justify-center items-center"
       >
-        <ChevronUp color="white" size={36} />
+        <ChevronUp color={iconColor} size={36} />
       </TouchableOpacity>
 
       {/* Bottom Button */}
@@ -49,7 +53,7 @@ export const DirectionalPad: React.FC<DirectionalPadProps> = ({
         onPress={withHaptic(onDown)}
         className="absolute bottom-2 w-20 h-16 justify-center items-center"
       >
-        <ChevronDown color="white" size={36} />
+        <ChevronDown color={iconColor} size={36} />
       </TouchableOpacity>
 
       {/* Left Button */}
@@ -58,7 +62,7 @@ export const DirectionalPad: React.FC<DirectionalPadProps> = ({
         onPress={withHaptic(onLeft)}
         className="absolute left-2 w-16 h-20 justify-center items-center"
       >
-        <ChevronLeft color="white" size={36} />
+        <ChevronLeft color={iconColor} size={36} />
       </TouchableOpacity>
 
       {/* Right Button */}
@@ -67,16 +71,18 @@ export const DirectionalPad: React.FC<DirectionalPadProps> = ({
         onPress={withHaptic(onRight)}
         className="absolute right-2 w-16 h-20 justify-center items-center"
       >
-        <ChevronRight color="white" size={36} />
+        <ChevronRight color={iconColor} size={36} />
       </TouchableOpacity>
 
       {/* Center OK Button */}
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={withHaptic(onOk)}
-        className="w-24 h-24 bg-[#121212] rounded-full justify-center items-center shadow-inner border border-[#3A3A3C]"
+        className="w-24 h-24 bg-gray-100 dark:bg-[#121212] rounded-full justify-center items-center shadow-inner border border-gray-300 dark:border-[#3A3A3C] transition-colors duration-500"
       >
-        <Text className="text-white font-bold text-xl">OK</Text>
+        <Text className="text-black dark:text-white font-bold text-xl transition-colors duration-500">
+          OK
+        </Text>
       </TouchableOpacity>
     </View>
   );
