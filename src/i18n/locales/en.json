@@ -1,0 +1,34 @@
+{
+  "tvSelector": {
+    "title": "Select your TV",
+    "samsung": "Samsung TV",
+    "lg": "LG TV",
+    "sony": "Sony TV",
+    "comingSoon": "Coming Soon"
+  },
+  "remote": {
+    "connecting": "Connecting...",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "power": "Power",
+    "volUp": "Vol +",
+    "volDown": "Vol -",
+    "chUp": "CH +",
+    "chDown": "CH -",
+    "mute": "Mute",
+    "home": "Home",
+    "back": "Back",
+    "source": "Source",
+    "settings": "Settings",
+    "ok": "OK",
+    "ipAddress": "TV IP Address",
+    "connectBtn": "Connect",
+    "disconnectBtn": "Disconnect"
+  },
+  "pairing": {
+    "title": "Pairing Required",
+    "message": "Please look at your TV screen and select 'Allow' or 'OK' when prompted to connect the remote.",
+    "waiting": "Waiting for pairing...",
+    "cancel": "Cancel"
+  }
+}

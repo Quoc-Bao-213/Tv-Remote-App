@@ -1,0 +1,34 @@
+{
+  "tvSelector": {
+    "title": "Chọn loại TV của bạn",
+    "samsung": "TV Samsung",
+    "lg": "TV LG",
+    "sony": "TV Sony",
+    "comingSoon": "Sắp ra mắt"
+  },
+  "remote": {
+    "connecting": "Đang kết nối...",
+    "connected": "Đã kết nối",
+    "disconnected": "Đã ngắt kết nối",
+    "power": "Nguồn",
+    "volUp": "Tăng Âm",
+    "volDown": "Giảm Âm",
+    "chUp": "Tăng Kênh",
+    "chDown": "Giảm Kênh",
+    "mute": "Tắt Tiếng",
+    "home": "Home",
+    "back": "Quay lại",
+    "source": "Đầu vào",
+    "settings": "Cài đặt",
+    "ok": "OK",
+    "ipAddress": "Địa chỉ IP TV",
+    "connectBtn": "Kết nối",
+    "disconnectBtn": "Ngắt kết nối"
+  },
+  "pairing": {
+    "title": "Yêu cầu kết nối",
+    "message": "Vui lòng nhìn lên màn hình TV của bạn và chọn 'Cho phép' hoặc 'Allow' để kết nối với remote.",
+    "waiting": "Đang chờ xác nhận...",
+    "cancel": "Hủy"
+  }
+}

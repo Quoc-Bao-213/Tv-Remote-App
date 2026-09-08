@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "SamsungRemote",
-    "slug": "SamsungRemote",
+    "name": "TV Remote App",
+    "slug": "tv-remote-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "samsungremote",
+    "scheme": "tv-remote-app",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon"
