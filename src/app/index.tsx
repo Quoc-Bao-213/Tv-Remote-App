@@ -7,6 +7,7 @@ import { useAppStore } from "../store/useAppStore";
 import { TV_KEYS } from "../features/samsung-tv/tv-keys";
 import { RemoteButton } from "../components/RemoteButton";
 import { PairingModal } from "../components/PairingModal";
+import { KeyboardModal } from "../components/KeyboardModal";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DirectionalPad } from "../components/DirectionalPad";
 import { useSamsungTV } from "../features/samsung-tv/useSamsungTV";
@@ -29,6 +30,7 @@ import {
   Power,
   Settings,
   ArrowLeft,
+  Keyboard as KeyboardIcon,
 } from "lucide-react-native";
 
 export default function RemoteScreen() {
@@ -43,6 +45,7 @@ export default function RemoteScreen() {
     connect,
     disconnect,
     sendKey,
+    sendText,
     launchApp,
     setPairingRequired,
     connectionError,
@@ -52,6 +55,7 @@ export default function RemoteScreen() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
 
   const [ipInput, setIpInput] = useState(samsungTvIp || "");
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
   // Redirect to selector if no brand selected
   useEffect(() => {
@@ -247,22 +251,35 @@ export default function RemoteScreen() {
           />
         </View>
 
-        {/* App Shortcuts */}
-        <View className="flex-row justify-center w-full mb-8">
+        {/* App Shortcuts & Keyboard */}
+        <View className="flex-row justify-center items-center w-full mb-8">
           <TouchableOpacity
-            className="bg-[#E50914] w-28 h-12 rounded-xl justify-center items-center shadow-lg mr-4"
+            className="bg-[#E50914] w-24 h-12 rounded-xl justify-center items-center shadow-lg mr-3"
             onPress={() => handleAppLaunch("11101200001")}
           >
-            <Text className="text-white font-black text-base tracking-widest">
+            <Text className="text-white font-black text-xs tracking-widest">
               NETFLIX
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            className="bg-[#FF0000] w-28 h-12 rounded-xl justify-center items-center shadow-lg"
+            className="bg-white dark:bg-[#2C2C2E] w-14 h-12 rounded-xl justify-center items-center shadow-lg mr-3 transition-colors duration-500 border border-gray-200 dark:border-[#3A3A3C]"
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+              setIsKeyboardVisible(true);
+            }}
+          >
+            <KeyboardIcon
+              color={colorScheme === "dark" ? "white" : "black"}
+              size={24}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            className="bg-[#FF0000] w-24 h-12 rounded-xl justify-center items-center shadow-lg"
             onPress={() => handleAppLaunch("111299001912")}
           >
-            <Text className="text-white font-bold text-base tracking-widest">
+            <Text className="text-white font-bold text-xs tracking-widest">
               YouTube
             </Text>
           </TouchableOpacity>
@@ -336,6 +353,15 @@ export default function RemoteScreen() {
         onCancel={() => {
           setPairingRequired(false);
           disconnect();
+        }}
+      />
+
+      <KeyboardModal
+        visible={isKeyboardVisible}
+        onClose={() => setIsKeyboardVisible(false)}
+        onSubmit={(text) => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+          sendText(text);
         }}
       />
 
