@@ -1,3 +1,4 @@
+import base64 from "base-64";
 import { useAppStore } from "../../store/useAppStore";
 import { useState, useCallback, useRef, useEffect } from "react";
 
@@ -135,6 +136,29 @@ export const useSamsungTV = () => {
     [samsungTvIp, connect],
   );
 
+  const sendText = useCallback(
+    (text: string) => {
+      if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
+        console.log("Not connected. Reconnecting...");
+        if (samsungTvIp) connect(samsungTvIp);
+        return;
+      }
+
+      const payload = {
+        method: "ms.remote.control",
+        params: {
+          Cmd: base64.encode(text),
+          DataOfCmd: "base64",
+          Option: "false",
+          TypeOfRemote: "SendInputString",
+        },
+      };
+
+      wsRef.current.send(JSON.stringify(payload));
+    },
+    [samsungTvIp, connect],
+  );
+
   useEffect(() => {
     // Optionally auto-connect if we already have the IP
     // if (samsungTvIp) connect();
@@ -152,6 +176,7 @@ export const useSamsungTV = () => {
     connect,
     disconnect,
     sendKey,
+    sendText,
     launchApp,
     setPairingRequired,
     setConnectionError,
