@@ -25,7 +25,7 @@ export const DirectionalPad: React.FC<DirectionalPadProps> = ({
   onOk,
 }) => {
   const withHaptic = (action: () => void) => () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     action();
   };
 

@@ -21,19 +21,28 @@ export const useSamsungTV = () => {
       setPairingRequired(false);
       setConnectionError(false);
 
+      // Close any existing connection attempt to prevent background socket pile-ups
+      if (wsRef.current) {
+        wsRef.current.close();
+        wsRef.current = null;
+      }
+
       const port = useSecure ? "8002" : "8001";
       const protocol = useSecure ? "wss" : "ws";
       const wsUrl = `${protocol}://${ip}:${port}/api/v2/channels/samsung.remote.control?name=${APP_NAME_BASE64}`;
 
       const ws = new WebSocket(wsUrl);
+      wsRef.current = ws;
 
       ws.onopen = () => {
+        if (wsRef.current !== ws) return;
         setIsConnected(true);
         setIsConnecting(false);
         setHasPaired(true); // Connected without issue means we are paired
       };
 
       ws.onmessage = (event) => {
+        if (wsRef.current !== ws) return;
         try {
           const data = JSON.parse(event.data);
           if (data.event === "ms.channel.connect") {
@@ -49,6 +58,7 @@ export const useSamsungTV = () => {
       };
 
       ws.onerror = (e) => {
+        if (wsRef.current !== ws) return;
         console.log(`WebSocket Error (${protocol} port ${port}):`, e);
 
         // If WSS fails (often due to React Native rejecting TV's self-signed cert), fallback to WS on 8001
@@ -62,11 +72,10 @@ export const useSamsungTV = () => {
       };
 
       ws.onclose = () => {
+        if (wsRef.current !== ws) return;
         setIsConnected(false);
         setIsConnecting(false);
       };
-
-      wsRef.current = ws;
     },
     [samsungTvIp, hasPaired, setHasPaired],
   );
