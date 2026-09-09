@@ -48,8 +48,8 @@ export const RemoteButton: React.FC<RemoteButtonProps> = ({
   };
 
   const handlePress = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    onPress();
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    if (onPress) onPress();
   };
 
   const iconColor =

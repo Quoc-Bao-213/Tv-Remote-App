@@ -99,12 +99,12 @@ export default function RemoteScreen() {
   };
 
   const handleKeyPress = (key: string) => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     sendKey(key);
   };
 
   const handleAppLaunch = (appId: string) => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     launchApp(appId);
   };
 
